@@ -19,9 +19,6 @@ for DISK in $DISKS; do
     # Check if the device exists and is a block device
     if [[ -b "$DEVICE" ]]; then
         SMART_REPORT+="--- S.M.A.R.T. Report for $DEVICE ---\n"
-
-        # Get important S.M.A.R.T. attributes (e.g., Reallocated_Sector_Ct, Current_Pending_Sector)
-        #SMART_REPORT+="$($SMARTCTL_PATH -A "$DEVICE" | grep -E 'Reallocated_Sector_Ct|Current_Pending_Sector|Offline_Uncorrectable|Temperature_Celsius' 2>&1)\n\n"
         SMART_REPORT+="$($SMARTCTL_PATH -ai "$DEVICE" | grep -E 'SMART overall-health self-assessment test result:|Temperature:|Power Cycles:|Power On Hours:|Unsafe Shutdowns:|Error Information Log Entries:' 2>&>
     fi
 done
